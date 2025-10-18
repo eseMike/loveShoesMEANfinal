@@ -1,0 +1,43 @@
+ <!-- Ejemplo básico -->
+<div>
+  <mat-chip-grid>
+    <mat-chip>One fish</mat-chip>
+    <mat-chip>Two fish</mat-chip>
+    <mat-chip color="primary" selected="true">Primary fish</mat-chip>
+    <mat-chip color="accent" selected="true">Accent fish</mat-chip>
+  </mat-chip-grid>
+</div>
+
+<!-- Ejemplo con input -->
+<div>
+  <mat-form-field class="demo-chip-list">
+    <mat-chip-grid #chipList>
+    <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+  {{ fruit.name }}
+  <button matChipRemove>
+    <mat-icon>cancel</mat-icon>
+  </button>
+</mat-chip>
+      <input
+        placeholder="New fruit..."
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event)"
+      />
+    </mat-chip-grid>
+  </mat-form-field>
+</div>
+
+<!-- Ejemplo stacked -->
+<div>
+  <mat-chip-grid class="mat-chip-list-stacked">
+    <mat-chip
+      *ngFor="let chip of availableColors"
+      selected="true"
+      [color]="chip.color"
+    >
+      {{ chip.name }}
+    </mat-chip>
+  </mat-chip-grid>
+</div>

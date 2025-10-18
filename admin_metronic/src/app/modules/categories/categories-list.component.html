@@ -1,0 +1,72 @@
+<div class="categories-list">
+  <h1>{{ title }}</h1>
+
+  <!-- Buscador + botón nueva -->
+  <div class="toolbar" style="margin-bottom: 1rem;">
+    <input
+      #searchInput
+      type="text"
+      placeholder="Buscar por nombre o descripción"
+      (keyup.enter)="onSearch(searchInput.value)"
+      style="padding: .35rem .5rem; width: 260px;"
+    />
+    <button (click)="onSearch(searchInput.value)" style="margin-left:.5rem;">Buscar</button>
+    <button [routerLink]="['/categories/register']" style="margin-left:.5rem;">+ Nueva</button>
+  </div>
+
+  <!-- Tabla de listado -->
+  <div class="table-responsive">
+    <table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th style="width: 110px;">Estado</th>
+          <th style="width: 180px;">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let c of categories">
+          <td>{{ c.name }}</td>
+          <td>{{ c.description }}</td>
+          <td>
+            <span>{{ c.state === 1 ? 'Activo' : 'Inactivo' }}</span>
+          </td>
+          <td>
+            <!-- Editar -->
+            <button [routerLink]="['/categories/register', c._id]">Editar</button>
+
+            <!-- Activar / Desactivar -->
+            <button *ngIf="c.state === 1" (click)="deactivate(c._id)" style="margin-left:.5rem;">
+              Desactivar
+            </button>
+            <button *ngIf="c.state !== 1" (click)="activate(c._id)" style="margin-left:.5rem;">
+              Activar
+            </button>
+          </td>
+        </tr>
+
+        <!-- vacío -->
+        <tr *ngIf="!categories || categories.length === 0">
+          <td colspan="4" style="text-align:center; padding:1rem;">
+            No hay categorías para mostrar.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+button:hover {
+  background-color: #0056b3;
+}
+</style>

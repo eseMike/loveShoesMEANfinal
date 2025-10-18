@@ -1,0 +1,34 @@
+<div class="card card-custom" [ngClass]="cssClass">
+  <!-- Body -->
+  <div class="card-body p-0">
+    <div
+      class="d-flex align-items-center justify-content-between card-spacer flex-grow-1"
+    >
+      <span [ngClass]="symbolCSSClasses">
+        <span class="symbol-label">
+          <span
+            [inlineSVG]="'./assets/media/svg/icons/Shopping/Cart3.svg'"
+            [ngClass]="svgCSSClasses"
+          ></span>
+        </span>
+      </span>
+      <div class="d-flex flex-column text-right">
+        <span class="text-dark-75 font-weight-bolder font-size-h3">+259</span>
+        <span class="text-muted font-weight-bold mt-2">Sales Change</span>
+      </div>
+    </div>
+    <!--begin::Chart-->
+    <div
+      id="kt_stats_widget_10_chart"
+      class="card-rounded-bottom"
+      [style.height]="'150px'"
+    >
+<!-- charts desactivados temporalmente -->
+        <div class="d-flex align-items-center justify-content-center p-5">
+          <span class="text-muted">Chart disabled</span>
+        </div>
+    </div>
+    <!--end::Chart-->
+    <!--end::Stats-->
+  </div>
+</div>

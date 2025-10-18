@@ -1,0 +1,117 @@
+/* 0) Variables antes de Bootstrap (para que las tome correctamente) */
+$primary: #3699ff;
+$link-color: $primary;                // sin !default para asegurar valor
+$link-hover-color: darken($link-color, 15%);  // sin !default
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": #6c757d,
+  "success": #198754,
+  "info": #0dcaf0,
+  "warning": #ffc107,
+  "danger": #dc3545,
+  "light": #f8f9fa,
+  "dark": #212529
+);
+
+/* Compat con código legado que usa theme-color("primary") */
+@function theme-color($key) {
+  @return map-get($theme-colors, $key);
+}
+
+@import "node_modules/@angular/material/_theming";
+/* Cargar Bootstrap con su orden interno correcto (evita _assert-ascending) */
+@import "bootstrap/scss/bootstrap";
+
+/* 2) Vendors CSS puros (ok con @import porque son CSS) */
+@import "highlight.js/styles/googlecode.css";
+@import "perfect-scrollbar/css/perfect-scrollbar.css";
+
+/* 3) Fuentes / iconos */
+@import "socicon/css/socicon.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+/* 4) Metronic principal */
+@import "assets/sass/style.angular.scss";
+
+/* ------------------------------------------------------------------
+   Helpers / ajustes propios
+-------------------------------------------------------------------*/
+
+.dropdown-toggle::after { display: none !important; }
+
+.angular-bootstrap-table {
+  overflow-x: auto;
+
+  th {
+    outline: none;
+
+    &.sortable {
+      .svg-icon-sort { opacity: 0; }
+      &:hover {
+        cursor: pointer;
+        .svg-icon-sort { opacity: 1; }
+      }
+    }
+  }
+
+  .table.table-head-custom thead th.sortable-active {
+    color: $primary !important;
+  }
+}
+
+.cursor-default { cursor: default !important; }
+
+.progress-modal {
+  height: 3px;
+  width: 100%;
+}
+
+/* === Aside oscuro (Metronic) ============================== */
+/* Metronic 8+ */
+.app-sidebar {
+  background-color: #1e1e2d !important;
+}
+.app-sidebar .menu .menu-link,
+.app-sidebar .menu .menu-title,
+.app-sidebar .menu .menu-icon {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.app-sidebar .menu .menu-item:hover > .menu-link,
+.app-sidebar .menu .menu-item.show > .menu-link,
+.app-sidebar .menu .menu-item.here > .menu-link,
+.app-sidebar .menu .menu-item.active > .menu-link {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+.app-sidebar .menu .menu-arrow { color: rgba(255,255,255,0.7) !important; }
+
+/* Metronic 7 (por si tu build usa esta estructura) */
+.aside {
+  background-color: #1e1e2d !important;
+}
+.aside .menu-nav .menu-item > .menu-link,
+.aside .menu-nav .menu-item .menu-text,
+.aside .menu-nav .menu-item .menu-icon {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.aside .menu-nav .menu-item:hover > .menu-link,
+.aside .menu-nav .menu-item.menu-item-active > .menu-link,
+.aside .menu-nav .menu-item.menu-item-open > .menu-link {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+/* ========================================================== */
+
+/* === Ajuste: Flecha del aside en blanco ================== */
+.app-sidebar-toggle .svg-icon svg path,
+.aside-toggle .svg-icon svg path {
+  fill: #fff !important;
+}
+/* === Ajuste: flecha (IMG) a blanco ======================= */
+#kt_aside_toggle img,
+.aside-toggle img {
+  /* convierte el PNG/SVG oscuro a blanco */
+  filter: brightness(0) invert(1) !important;
+  opacity: .95;
+}

@@ -1,0 +1,12 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "16"  // Asegura que esté en la versión que estás usando
+        }
+      }
+    ]
+  ]
+}

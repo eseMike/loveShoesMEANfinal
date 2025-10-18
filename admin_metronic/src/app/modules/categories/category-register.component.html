@@ -1,0 +1,26 @@
+<h1>{{ title }}</h1>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label>Nombre</label>
+    <input formControlName="name" />
+    <small *ngIf="form.get('name')?.touched && form.get('name')?.invalid">
+      El nombre es requerido y máximo 80 caracteres.
+    </small>
+  </div>
+
+  <div class="field">
+    <label>Descripción</label>
+    <textarea formControlName="description"></textarea>
+    <small *ngIf="form.get('description')?.touched && form.get('description')?.hasError('maxlength')">
+      Máximo 300 caracteres.
+    </small>
+  </div>
+
+  <div class="actions">
+    <button type="submit" [disabled]="loading || form.invalid">
+      {{ isEdit ? 'Actualizar' : 'Guardar' }}
+    </button>
+    <button type="button" (click)="cancel()">Cancelar</button>
+  </div>
+</form>

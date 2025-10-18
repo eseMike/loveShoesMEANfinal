@@ -1,0 +1,651 @@
+@import '../styles';
+
+body {
+  background-color: $primary-color;
+}
+
+.header-department-text {
+  background-color: $primary-color !important;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: $highlight-color !important;
+  }
+
+  i {
+    font-size: 16px;
+  }
+}
+
+.header-department-text {
+  background-color: $primary-color !important;
+  color: white;
+}
+
+.axil-btn.btn-bg-primary {
+  background-color: $primary-color !important;
+  color: white;
+  border: none;
+
+  &:hover {
+    background-color: $highlight-color !important;
+  }
+}
+
+.mainmenu > li > a:hover {
+  color: $highlight-color !important;
+}
+
+.dropdown-menu {
+  background-color: $background-color;
+}
+
+.dropdown-item:hover {
+  background-color: $secondary-color;
+  color: $text-color;
+}
+
+.axil-header-top {
+  background-color: $background-color !important;
+}
+
+.axil-main-slider-area {
+  background-color: $background-color;
+}
+
+.main-slider-content .subtitle {
+  color: $highlight-color !important;
+  font-weight: 600;
+}
+
+.main-slider-content .title {
+  color: $text-color;
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.shop-btn .axil-btn {
+  background-color: $primary-color !important;
+  color: white !important;
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: $highlight-color !important;
+  }
+}
+
+.slider-product-box .price {
+  color: $highlight-color;
+  font-weight: bold;
+}
+
+.flash-sale-area {
+  background-color: $background-color;
+}
+
+.title-highlighter {
+  color: $highlight-color !important;
+  font-weight: 600;
+
+  i {
+    color: $highlight-color !important;
+  }
+}
+
+.flash-sale-section .title {
+  color: $text-color;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.axil-product.product-style-four {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .product-badget {
+    background-color: $highlight-color;
+    color: white;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 8px;
+  }
+
+  .product-price-variant {
+    .old-price {
+      text-decoration: line-through;
+      color: #aaa;
+    }
+
+    .current-price {
+      color: $primary-color;
+      font-weight: bold;
+    }
+  }
+
+  .select-option a {
+    background-color: $primary-color;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: $highlight-color;
+    }
+  }
+}
+
+.axil-categorie-area {
+  background-color: $background-color;
+}
+
+.title-highlighter.highlighter-secondary {
+  color: $highlight-color !important;
+
+  i {
+    color: $highlight-color !important;
+  }
+}
+
+.axil-categorie-area .title {
+  color: $text-color;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.categrie-product {
+  background-color: white;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .cat-title {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: $primary-color;
+  }
+}
+
+.axil-best-seller-product-area {
+  background-color: $background-color;
+}
+
+.title-highlighter.highlighter-primary {
+  color: $highlight-color !important;
+
+  i {
+    color: $highlight-color !important;
+  }
+}
+
+.axil-best-seller-product-area .title {
+  color: $text-color;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.axil-product.product-style-three {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .product-content .title a {
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .product-price-variant {
+    .current-price {
+      color: $accent-color;
+      font-weight: 700;
+    }
+
+    .old-price {
+      color: #888;
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+  }
+
+  .product-rating i {
+    color: gold;
+  }
+}
+
+.poster-countdown-wrap {
+  background-color: $secondary-color !important; // o uno que combine bien con tu rosa
+  padding: 60px 40px;
+  border-radius: 20px;
+}
+
+.poster-countdown-content {
+  .title-highlighter {
+    color: $highlight-color !important;
+  }
+
+  .title {
+    color: $primary-color !important;
+    font-weight: 700;
+  }
+
+  .axil-btn {
+    background-color: $highlight-color !important;
+    color: white !important;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+
+    &:hover {
+      background-color: darken($highlight-color, 10%);
+    }
+  }
+}
+
+.music-singnal .item-circle {
+  background-color: $highlight-color !important;
+  opacity: 0.4;
+}
+
+// Animación tipo pulse
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+}
+
+// Aplica a cada círculo con delay diferente
+.music-singnal .item-circle {
+  background-color: $highlight-color !important;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
+  animation: pulse 1.8s infinite ease-in-out;
+  opacity: 0.6;
+}
+
+.music-singnal .circle-1 {
+  left: 20%;
+  top: 40%;
+  animation-delay: 0s;
+}
+
+.music-singnal .circle-2 {
+  left: 30%;
+  top: 20%;
+  animation-delay: 0.2s;
+}
+
+.music-singnal .circle-3 {
+  left: 50%;
+  top: 50%;
+  animation-delay: 0.4s;
+}
+
+.music-singnal .circle-4 {
+  left: 70%;
+  top: 30%;
+  animation-delay: 0.6s;
+}
+
+.music-singnal .circle-5 {
+  left: 80%;
+  top: 50%;
+  animation-delay: 0.8s;
+}
+
+.axil-product-area {
+  background-color: #fff;
+  padding: 60px 0;
+
+  .section-title-wrapper {
+    text-align: center;
+    margin-bottom: 40px;
+
+    .title-highlighter {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      color: $highlight-color;
+    }
+
+    h2.title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2rem;
+      margin-top: 10px;
+    }
+  }
+
+  .axil-product {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .thumbnail {
+      position: relative;
+      img {
+        width: 100%;
+        transition: opacity 0.4s ease;
+        &.hover-img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          opacity: 0;
+        }
+      }
+
+      &:hover .hover-img {
+        opacity: 1;
+      }
+    }
+
+    .product-content {
+      padding: 15px;
+      .title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .product-price-variant {
+        display: flex;
+        gap: 10px;
+        .current-price {
+          font-weight: bold;
+          color: $highlight-color;
+        }
+        .old-price {
+          text-decoration: line-through;
+          color: #999;
+        }
+      }
+
+      .product-rating {
+        margin-bottom: 5px;
+        .icon i {
+          color: #f4c150;
+          margin-right: 2px;
+        }
+      }
+    }
+
+    .product-hover-action {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      ul.cart-action {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        li a {
+          background: #fff;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: $highlight-color;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          transition: background 0.3s;
+
+          &:hover {
+            background: $highlight-color;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+.axil-testimoial-area {
+  background-color: #f9fafb; // bg-vista-white
+  padding: 60px 0;
+
+  .section-title-wrapper {
+    text-align: center;
+    margin-bottom: 40px;
+
+    .title-highlighter {
+      color: $highlight-secondary;
+      font-size: 1rem;
+      i {
+        margin-right: 5px;
+      }
+    }
+
+    h2.title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2rem;
+      color: #1a1a1a;
+      margin-top: 10px;
+    }
+  }
+
+  .testimonial-style-one-wrapper {
+    .testimonial-style-one {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .review-speech {
+        font-size: 1rem;
+        color: #555;
+        font-style: italic;
+        line-height: 1.6;
+        margin-bottom: 25px;
+      }
+
+      .media {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+
+        .thumbnail {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .media-body {
+          text-align: left;
+
+          .designation {
+            font-size: 0.9rem;
+            color: #999;
+          }
+
+          .title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 4px;
+            color: #333;
+          }
+        }
+      }
+    }
+  }
+}
+
+.service-area {
+  background-color: #fff5f8; // un tono rosita claro, puedes cambiarlo si usas otro color base
+  padding: 60px 0;
+
+  .service-box {
+    background-color: white;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon {
+      margin-bottom: 15px;
+
+      img {
+        width: 60px;
+        height: auto;
+      }
+    }
+
+    .title {
+      font-weight: 600;
+      font-size: 18px;
+      color: $accent-color; // Asegúrate de que esté definida. Si no, usa #E91E63 por ejemplo.
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #777;
+    }
+  }
+}
+
+.footer-style-2 {
+  background-color: #231f20; // Fondo oscuro elegante
+  color: #ffffff;
+  padding-top: 60px;
+
+  .widget-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .axil-footer-widget {
+    .inner {
+      ul li a {
+        color: #d1d1d1;
+        font-size: 14px;
+        transition: color 0.3s;
+
+        &:hover {
+          color: $accent-color; // Color rosa o rojo vino de Love Shoes
+        }
+      }
+
+      p {
+        color: #d1d1d1;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      span {
+        color: #d1d1d1;
+      }
+    }
+  }
+
+  .social-share a {
+    background-color: transparent;
+    color: #ffffff;
+    margin-right: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: $accent-color;
+    }
+  }
+
+  .copyright-area {
+    background-color: #1b191a;
+    border-top: 1px solid #3e3e3e;
+    padding: 20px 0;
+
+    .quick-link li {
+      color: #c1c1c1;
+      font-size: 13px;
+
+      a {
+        color: $accent-color;
+        text-decoration: underline;
+      }
+    }
+
+    .card-text {
+      color: #ffffff;
+      font-weight: 500;
+      margin-right: 10px;
+    }
+
+    .payment-icons-bottom li img {
+      height: 24px;
+      margin-left: 8px;
+    }
+  }
+}

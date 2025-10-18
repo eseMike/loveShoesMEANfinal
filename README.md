@@ -1,0 +1,1 @@
+# LoveShoes MEAN – Monorepo

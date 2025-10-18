@@ -1,0 +1,24 @@
+<div
+  [ngClass]="{
+    alert: true,
+    'alert-success': data?.type === 'success',
+    'alert-danger': data?.type === 'danger',
+    'alert-warning': data?.type === 'warning',
+    'alert-info': data?.type === 'info'
+  }"
+  style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: auto;
+    max-width: 300px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  "
+>
+  <strong *ngIf="data?.type === 'success'">✔ Éxito:</strong>
+  <strong *ngIf="data?.type === 'danger'">✖ Error:</strong>
+  <strong *ngIf="data?.type === 'warning'">⚠ Advertencia:</strong>
+  <strong *ngIf="data?.type === 'info'">ℹ Info:</strong>
+  <div style="margin-top: 5px">{{ data?.text }}</div>
+</div>

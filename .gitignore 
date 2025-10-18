@@ -1,0 +1,26 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Angular / builds
+dist/
+.tmp/
+.cache/
+
+# Env
+.env
+.env.*
+
+# Angular cache
+.angular/
+**/.angular/
+
+# Test coverage
+coverage/
+
+# OS / Editor junk
+.DS_Store
+**/.DS_Store
+.vscode/
