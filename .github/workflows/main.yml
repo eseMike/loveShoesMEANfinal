@@ -1,0 +1,49 @@
+name: Deploy LoveShoes to DirectAdmin
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install deps & build (Angular)
+        working-directory: Ecommerce
+        run: |
+          npm ci
+          npx ng build --configuration production
+
+      - name: Find Angular dist path
+        id: finddist
+        run: |
+          echo "DIST=$(ls -d Ecommerce/dist/* | head -n1)" >> $GITHUB_OUTPUT
+
+      - name: Clean target folder on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/loveshoes/domains/loveshoes.com.mx/public_html
+            rm -rf /home/loveshoes/domains/loveshoes.com.mx/public_html/*
+
+      - name: Upload build to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "${{ steps.finddist.outputs.DIST }}/*"
+          target: "/home/loveshoes/domains/loveshoes.com.mx/public_html"
+          overwrite: true
