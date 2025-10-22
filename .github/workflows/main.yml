@@ -26,7 +26,27 @@ jobs:
       - name: Find Angular dist path
         id: finddist
         run: |
-          echo "DIST=$(ls -d Ecommerce/dist/* | head -n1)" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          DIST_DIR="$(find Ecommerce/dist -mindepth 1 -maxdepth 1 -type d | head -n1)"
+          if [ -z "$DIST_DIR" ]; then
+            echo "No dist folder found under Ecommerce/dist" >&2
+            exit 1
+          fi
+          echo "DIST=$DIST_DIR" >> "$GITHUB_OUTPUT"
+
+      - name: Stage upload directory
+        run: |
+          rm -rf upload
+          mkdir -p upload
+          cp -a "${{ steps.finddist.outputs.DIST }}/." upload/
+
+      - name: Debug dist and upload
+        run: |
+          echo "DIST = ${{ steps.finddist.outputs.DIST }}"
+          echo "--- upload (ls -lah) ---"
+          ls -lah upload
+          echo "--- upload tree (depth 2) ---"
+          find upload -maxdepth 2 -print
 
       - name: Clean target folder on server
         uses: appleboy/ssh-action@v1.0.3
@@ -44,6 +64,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "${{ steps.finddist.outputs.DIST }}/*"
+          source: "upload/*"
           target: "/home/loveshoes/domains/loveshoes.com.mx/public_html"
           overwrite: true
