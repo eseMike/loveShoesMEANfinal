@@ -1,0 +1,80 @@
+<div class="container py-4">
+  <!-- Volver -->
+  <a routerLink="/home" class="axil-btn btn-outline mb-3" aria-label="Volver a inicio">← Volver</a>
+
+  <!-- Carga / Error -->
+  <ng-container *ngIf="!loading && !error; else stateTpl">
+    <!-- Contenido solo si hay producto disponible -->
+    <div class="row g-4 align-items-start" *ngIf="hasProduct">
+      <!-- Galería -->
+      <div class="col-md-6">
+        <img
+          class="img-fluid rounded w-100"
+          [src]="mainImage"
+          [alt]="title" />
+
+        <!-- Thumbnails -->
+        <ul class="d-flex gap-2 mt-3 flex-wrap list-unstyled" aria-label="Imágenes del producto">
+          <li *ngFor="let img of images; index as i; trackBy: trackByIndex">
+            <button
+              type="button"
+              class="rounded border p-0"
+              [class.active]="i === selectedImageIndex"
+              style="width:72px;height:72px;overflow:hidden"
+              (click)="setImage(i)"
+              [attr.aria-label]="'Cambiar a imagen ' + (i + 1)">
+              <img [src]="img" [alt]="title" style="width:72px;height:72px;object-fit:cover" />
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Información -->
+      <div class="col-md-6">
+        <h1 class="h3 mb-2">{{ title }}</h1>
+
+        <div class="price-line mb-2">
+          <span *ngIf="oldPrice as op" class="text-muted text-decoration-line-through me-2">
+            {{ op | currency:((currencyService.currency$ | async) || 'USD'):'symbol':'1.0-0' }}
+          </span>
+          <span class="fs-4 fw-bold">
+            {{ price | currency:((currencyService.currency$ | async) || 'USD'):'symbol':'1.0-0' }}
+          </span>
+        </div>
+
+        <p class="text-muted mb-3">{{ description }}</p>
+
+        <div class="mb-3">
+          <span class="badge" [class.bg-success]="inStock" [class.bg-secondary]="!inStock">
+            {{ inStock ? 'En stock' : 'Agotado' }}
+          </span>
+        </div>
+
+        <button
+          type="button"
+          class="axil-btn btn-bg-primary mt-2"
+          [disabled]="!inStock"
+          [attr.aria-disabled]="!inStock"
+          (click)="addToCart()">
+          Agregar al carrito
+        </button>
+      </div>
+    </div>
+
+    <!-- 404 / Sin producto -->
+    <div *ngIf="!hasProduct" class="alert alert-warning mt-3" role="alert">
+      Producto no encontrado.
+    </div>
+  </ng-container>
+
+  <!-- Template de estados -->
+  <ng-template #stateTpl>
+    <div class="text-center my-5" *ngIf="loading" aria-live="polite">
+      <div class="spinner-border" role="status" aria-hidden="true"></div>
+      <p class="mt-2 mb-0">Cargando producto…</p>
+    </div>
+    <div class="alert alert-danger" *ngIf="!loading && error" role="alert">
+      {{ error }}
+    </div>
+  </ng-template>
+</div>

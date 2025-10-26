@@ -1273,6 +1273,81 @@
         >
         <h2 class="title">Explore our Products</h2>
       </div>
+      <!-- === Dynamic Products from API (Angular) === -->
+      <div class="product-area pb--20">
+        <!-- Loading state -->
+        <div *ngIf="loading" class="text-center my-4">
+          <div class="spinner-border" role="status" aria-label="Cargando"></div>
+          <p class="mt-2">Cargando productos…</p>
+        </div>
+
+        <!-- Error state -->
+        <div *ngIf="!loading && error" class="alert alert-danger my-3" role="alert">
+          {{ error }}
+        </div>
+
+        <!-- Dynamic grid -->
+        <div *ngIf="!loading && products?.length" class="row row--15">
+          <div
+            class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30"
+            *ngFor="let p of products; trackBy: trackById"
+          >
+            <div class="axil-product product-style-one">
+              <div class="thumbnail">
+                <a [routerLink]="['/product', p?._id]">
+                  <img
+                    [attr.data-sal]="'zoom-out'"
+                    [attr.data-sal-delay]="'150'"
+                    [attr.data-sal-duration]="'800'"
+                    class="main-img"
+                    [src]="(p.images &amp;&amp; p.images.length ? p.images[0] : 'assets/images/product/placeholder.png')"
+                    [alt]="p.name || 'Product'"
+                  />
+                </a>
+                <div class="label-block label-right" *ngIf="p.badge">
+                  <div class="product-badget">{{ p.badge }}</div>
+                </div>
+                <div class="product-hover-action">
+                  <ul class="cart-action">
+                    <li class="quickview">
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal">
+                        <i class="far fa-eye"></i>
+                      </a>
+                    </li>
+                    <li class="select-option">
+                      <a href="#" aria-label="Agregar al carrito" (click)="handleAddToCart(p); $event.preventDefault()"> Add to Cart </a>
+                    </li>
+                    <li class="wishlist">
+                      <a href="wishlist.html"><i class="far fa-heart"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="product-content">
+                <div class="inner">
+                  <h5 class="title">
+                    <a [routerLink]="['/product', p?._id]">{{ p?.name }}</a>
+                  </h5>
+                  <div class="product-price-variant">
+                    <span class="price current-price">
+                      {{ p.price | currency:((currencyService.currency$ | async) || 'USD'):'symbol':'1.0-0' }}
+                    </span>
+                    <span class="price old-price" *ngIf="p.oldPrice">
+                      {{ p.oldPrice | currency:((currencyService.currency$ | async) || 'USD'):'symbol':'1.0-0' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination hint / CTA (optional) -->
+          <div class="text-center mt-3" *ngIf="products && products.length &gt;= 12">
+            <a href="#" class="axil-btn btn-bg-primary">Ver más productos</a>
+          </div>
+        </div>
+      </div>
+      <!-- === /Dynamic Products from API === -->
       <div
         class="explore-product-activation slick-layout-wrapper slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide"
       >

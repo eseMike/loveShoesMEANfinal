@@ -1,0 +1,8 @@
+{
+  "HEADER": {
+    "VIEW_CART": "Ver carrito",
+    "CHECKOUT": "Pagar",
+    "EMPTY_CART": "Tu carrito está vacío",
+    "CLEAR_CART": "Vaciar carrito"
+  }
+}

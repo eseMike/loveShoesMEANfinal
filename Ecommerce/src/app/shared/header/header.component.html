@@ -38,12 +38,21 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                USD
+                {{ (currencyService.currency$ | async) || 'USD' }}
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">USD</a></li>
-                <li><a class="dropdown-item" href="#">AUD</a></li>
-                <li><a class="dropdown-item" href="#">EUR</a></li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                     (click)="currencyService.setCurrency('MXN'); $event.preventDefault()">
+                    MXN
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                     (click)="currencyService.setCurrency('USD'); $event.preventDefault()">
+                    USD
+                  </a>
+                </li>
               </ul>
             </div>
             <div class="dropdown">
@@ -53,12 +62,21 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                EN
+                {{ (languageService.lang$ | async) || 'en-US' }}
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">EN</a></li>
-                <li><a class="dropdown-item" href="#">ARB</a></li>
-                <li><a class="dropdown-item" href="#">SPN</a></li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                     (click)="languageService.setLanguage('es-419'); $event.preventDefault()">
+                    Español (Latino)
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                     (click)="languageService.setLanguage('en-US'); $event.preventDefault()">
+                    English (US)
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -505,10 +523,72 @@
               </a>
             </li>
             <li class="shopping-cart">
-              <a href="#" class="cart-dropdown-btn">
-                <span class="cart-count">3</span>
+              <a href="#" class="ls-cart-btn" (click)="toggleCart($event)">
+                <span class="cart-count">{{ cartCount$ | async }}</span>
                 <i class="flaticon-shopping-cart"></i>
               </a>
+
+              <!-- DROPDOWN DEL CARRITO (dinámico con items$) -->
+              <div class="cart-dropdown" [class.open]="isCartOpen">
+                <div class="cart-content-wrap">
+                  <ng-container *ngIf="(items$ | async) as items">
+                    <!-- Carrito con productos -->
+                    <ng-container *ngIf="items.length > 0; else emptyCart">
+                      <div class="cart-item" *ngFor="let it of items">
+                        <button class="item-remove" aria-label="Eliminar"
+                                (click)="rm(it); $event.preventDefault(); $event.stopPropagation();">&times;</button>
+
+                        <div class="item-img">
+                          <img [src]="it?.image || 'assets/images/product/product-45.png'"
+                               [alt]="it?.name || 'Producto'" />
+                        </div>
+
+                        <div class="item-content">
+                          <h6 class="item-title">{{ it?.name }}</h6>
+                          <div class="item-qty-price">
+                            <div class="qty-controls">
+                              <button type="button" class="qty-btn minus"
+                                      (click)="dec(it); $event.preventDefault(); $event.stopPropagation();">−</button>
+                              <span class="qty">{{ it?.qty || 1 }}</span>
+                              <button type="button" class="qty-btn plus"
+                                      (click)="inc(it); $event.preventDefault(); $event.stopPropagation();">+</button>
+                            </div>
+                            <span class="price">{{ (it?.price || 0) | currency:((currencyService.currency$ | async) || 'USD'):'symbol' }}</span>
+                          </div>
+                        </div>
+
+                        <div class="item-total">
+                          {{ ((it?.price || 0) * (it?.qty || 1)) | currency:((currencyService.currency$ | async) || 'USD'):'symbol' }}
+                        </div>
+                      </div>
+
+                      <div class="cart-subtotal">
+                        <span>Subtotal</span>
+                        <span class="amount">{{ (subtotal$ | async) | currency:((currencyService.currency$ | async) || 'USD'):'symbol' }}</span>
+                      </div>
+
+                      <div class="cart-action">
+                        <a routerLink="/cart" class="axil-btn btn-bg-primary">{{ 'HEADER.VIEW_CART' | translate }}</a>
+                        <a routerLink="/checkout" class="axil-btn btn-bg-secondary">{{ 'HEADER.CHECKOUT' | translate }}</a>
+                      </div>
+                      <div class="cart-action mt-2">
+                        <button type="button" class="axil-btn btn-outline"
+                                (click)="cartService.clear(); $event.preventDefault(); $event.stopPropagation();">
+                          {{ 'HEADER.CLEAR_CART' | translate }}
+                        </button>
+                      </div>
+                    </ng-container>
+
+                    <!-- Carrito vacío -->
+                    <ng-template #emptyCart>
+                      <div class="cart-empty text-center">
+                        <p>{{ 'HEADER.EMPTY_CART' | translate }}</p>
+                      </div>
+                    </ng-template>
+                  </ng-container>
+                </div>
+              </div>
+              <!-- /DROPDOWN DEL CARRITO -->
             </li>
             <li class="my-account">
               <a href="javascript:void(0)">

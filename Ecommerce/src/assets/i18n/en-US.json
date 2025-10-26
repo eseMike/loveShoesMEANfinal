@@ -1,0 +1,8 @@
+{
+  "HEADER": {
+    "VIEW_CART": "View Cart",
+    "CHECKOUT": "Checkout",
+    "EMPTY_CART": "Your cart is empty",
+    "CLEAR_CART": "Clear cart"
+  }
+}

@@ -15,13 +15,13 @@ const routes: Routes = [
       )
   },
   {
-    path: '',
-    redirectTo: '/',
-    pathMatch: 'full'
+    path: 'product',
+    loadChildren: () =>
+      import('./modules/product/product.module').then((m) => m.ProductModule)
   },
   {
     path: '**',
-    redirectTo: 'error/ 404'
+    redirectTo: ''
   }
 ];
 
