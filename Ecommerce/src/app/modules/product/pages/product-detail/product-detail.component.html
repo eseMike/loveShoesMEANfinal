@@ -78,3 +78,204 @@
     </div>
   </ng-template>
 </div>
+
+<div class="container py-4">
+  <!-- Volver / Breadcrumb -->
+  <nav class="d-flex align-items-center justify-content-between mb-3" aria-label="Navegación del producto">
+    <a routerLink="/home" class="axil-btn btn-outline" aria-label="Volver a inicio">← Volver</a>
+    <ol class="breadcrumb mb-0 small" aria-label="Breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/shop">Shop</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Detalle</li>
+    </ol>
+  </nav>
+
+  <!-- Carga / Error -->
+  <ng-container *ngIf="!loading && !error; else stateTpl">
+    <!-- Contenido solo si hay producto disponible -->
+    <div class="row g-4 align-items-start" *ngIf="hasProduct">
+      <!-- Galería -->
+      <div class="col-md-6">
+        <div class="bg-white rounded p-2 border">
+          <img
+            class="img-fluid rounded w-100"
+            [src]="mainImage"
+            [alt]="title" />
+        </div>
+
+        <!-- Thumbnails -->
+        <ul class="d-flex gap-2 mt-3 flex-wrap list-unstyled" aria-label="Imágenes del producto">
+          <li *ngFor="let img of images; index as i; trackBy: trackByIndex">
+            <button
+              type="button"
+              class="rounded border p-0"
+              [class.active]="i === selectedImageIndex"
+              style="width:72px;height:72px;overflow:hidden"
+              (click)="setImage(i)"
+              [attr.aria-label]="'Cambiar a imagen ' + (i + 1)">
+              <img [src]="img" [alt]="title" style="width:72px;height:72px;object-fit:cover" />
+            </button>
+          </li>
+        </ul>
+
+        <!-- Beneficios (desktop) -->
+        <div class="d-none d-md-block mt-4">
+          <div class="row g-2">
+            <div class="col-12">
+              <div class="border rounded p-3 bg-white">
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="d-flex align-items-start gap-2">
+                    <span class="badge bg-light text-dark border">🚚</span>
+                    <div>
+                      <div class="fw-semibold">Envío rápido</div>
+                      <div class="small text-muted">Seguimiento y entrega confiable</div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-start gap-2">
+                    <span class="badge bg-light text-dark border">🔒</span>
+                    <div>
+                      <div class="fw-semibold">Pago seguro</div>
+                      <div class="small text-muted">Protección en cada compra</div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-start gap-2">
+                    <span class="badge bg-light text-dark border">↩️</span>
+                    <div>
+                      <div class="fw-semibold">Devolución fácil</div>
+                      <div class="small text-muted">Política clara y simple</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información -->
+      <div class="col-md-6">
+        <div class="bg-white border rounded p-4">
+          <h1 class="h3 mb-2">{{ title }}</h1>
+
+          <!-- Estado + mini meta -->
+          <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+            <span class="badge" [class.bg-success]="inStock" [class.bg-secondary]="!inStock">
+              {{ inStock ? 'En stock' : 'Agotado' }}
+            </span>
+            <span class="small text-muted">• envío a todo México</span>
+            <span class="small text-muted">• atención por WhatsApp</span>
+          </div>
+
+          <!-- Precio -->
+          <div class="price-line mb-3">
+            <span *ngIf="oldPrice as op" class="text-muted text-decoration-line-through me-2">
+              {{ op | currency:((currencyService.currency$ | async) || 'USD'):'symbol':'1.0-0' }}
+            </span>
+            <span class="fs-3 fw-bold">
+              {{ price | currency:((currencyService.currency$ | async) || 'USD'):'symbol':'1.0-0' }}
+            </span>
+            <span class="ms-2 small text-muted" *ngIf="oldPrice">oferta</span>
+          </div>
+
+          <p class="text-muted mb-4">{{ description }}</p>
+
+          <!-- CTAs -->
+          <div class="d-grid gap-2">
+            <button
+              type="button"
+              class="axil-btn btn-bg-primary"
+              [disabled]="!inStock"
+              [attr.aria-disabled]="!inStock"
+              (click)="addToCart()">
+              Agregar al carrito
+            </button>
+
+            <a
+              routerLink="/cart"
+              class="axil-btn btn-outline"
+              [attr.aria-disabled]="!inStock"
+              [class.disabled]="!inStock"
+              (click)="$event.preventDefault();"
+              *ngIf="false">
+              Ver carrito
+            </a>
+          </div>
+
+          <!-- Confianza / Info rápida -->
+          <div class="row g-2 mt-4">
+            <div class="col-12">
+              <div class="border rounded p-3">
+                <div class="d-flex flex-column gap-2">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="small text-muted">Métodos de pago</span>
+                    <span class="small fw-semibold">Tarjeta / Transferencia</span>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="small text-muted">Envío</span>
+                    <span class="small fw-semibold">Calculado en checkout</span>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="small text-muted">Garantía</span>
+                    <span class="small fw-semibold">Compra protegida</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Beneficios (mobile) -->
+          <div class="d-md-none mt-4">
+            <div class="border rounded p-3">
+              <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+                <li class="d-flex align-items-center gap-2"><span class="badge bg-light text-dark border">🚚</span><span class="small">Envío rápido con seguimiento</span></li>
+                <li class="d-flex align-items-center gap-2"><span class="badge bg-light text-dark border">🔒</span><span class="small">Pago seguro</span></li>
+                <li class="d-flex align-items-center gap-2"><span class="badge bg-light text-dark border">↩️</span><span class="small">Devolución fácil</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 404 / Sin producto -->
+    <div *ngIf="!hasProduct" class="alert alert-warning mt-3" role="alert">
+      Producto no encontrado.
+    </div>
+  </ng-container>
+
+  <!-- Template de estados -->
+  <ng-template #stateTpl>
+    <div class="text-center my-5" *ngIf="loading" aria-live="polite">
+      <div class="spinner-border" role="status" aria-hidden="true"></div>
+      <p class="mt-2 mb-0">Cargando producto…</p>
+    </div>
+    <div class="alert alert-danger" *ngIf="!loading && error" role="alert">
+      {{ error }}
+    </div>
+  </ng-template>
+</div>
+
+<!-- Sticky CTA (solo mobile) -->
+<ng-container *ngIf="!loading && !error && hasProduct">
+  <div class="d-md-none position-fixed bottom-0 start-0 end-0 bg-white border-top p-2" style="z-index: 1030;">
+    <div class="container d-flex align-items-center justify-content-between gap-2">
+      <div class="d-flex flex-column">
+        <span class="small text-muted">Total</span>
+        <span class="fw-bold">
+          {{ price | currency:((currencyService.currency$ | async) || 'USD'):'symbol':'1.0-0' }}
+        </span>
+      </div>
+      <button
+        type="button"
+        class="axil-btn btn-bg-primary"
+        style="white-space:nowrap;"
+        [disabled]="!inStock"
+        [attr.aria-disabled]="!inStock"
+        (click)="addToCart()">
+        Agregar
+      </button>
+    </div>
+  </div>
+  <!-- Spacer para que no tape contenido -->
+  <div class="d-md-none" style="height:64px;"></div>
+</ng-container>

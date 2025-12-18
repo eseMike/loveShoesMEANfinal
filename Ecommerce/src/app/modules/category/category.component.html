@@ -1,0 +1,44 @@
+<div class="container py-4">
+
+  <h2 class="mb-4">Productos de la categoría</h2>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center">
+    <p>Cargando productos...</p>
+  </div>
+
+  <!-- Sin productos -->
+  <div *ngIf="!loading && products.length === 0" class="text-center">
+    <p>No hay productos en esta categoría.</p>
+  </div>
+
+  <!-- Productos -->
+  <div class="row" *ngIf="!loading && products.length > 0">
+    <div
+      class="col-xl-4 col-md-6 mb-4"
+      *ngFor="let p of products"
+    >
+      <div class="card h-100 shadow-sm">
+        <img
+          [src]="p.image ? p.image : 'assets/images/product/placeholder.png'"
+          class="card-img-top"
+          alt="producto"
+        />
+
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ p.name }}</h5>
+          <p class="card-text flex-grow-1">{{ p.description }}</p>
+          <p class="fw-bold mb-2">$ {{ p.price }}</p>
+
+          <button
+            class="btn btn-primary mt-auto"
+            (click)="addToCart(p)"
+          >
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

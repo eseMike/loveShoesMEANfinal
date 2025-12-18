@@ -9,6 +9,13 @@ export interface ProductCategory {
   name?: string;
 }
 
+export interface Category {
+  _id?: string;
+  name: string;
+  description?: string;
+  state?: number;
+}
+
 export interface Product {
   _id?: string;
   name: string;
@@ -57,5 +64,23 @@ export class ProductService {
 
   detail(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.base}/detail/${id}`);
+  }
+
+  listCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(
+      environment.URL_SERVICIOS + 'categories'
+    );
+  }
+
+  getProductsByCategory(categoryId: string): Observable<Product[]> {
+    const params = new HttpParams().set('category', categoryId);
+
+    return this.http
+      .get<ProductListResponse | Product[]>(`${this.base}/list`, { params })
+      .pipe(
+        map((res: any) =>
+          Array.isArray(res) ? res : (res?.items ?? res?.data ?? [])
+        )
+      );
   }
 }

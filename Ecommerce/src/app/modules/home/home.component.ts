@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService, Product, ProductListResponse } from '../../shared/product.service';
+import { ProductService, Product, ProductListResponse, Category } from '../../shared/product.service';
 import { CartService, CartItem } from '../../shared/cart.service';
 import { CurrencyService } from '../../shared/currency.service';
+import { environment } from 'src/environments/environment';
 
 declare var $: any;
 declare function HOMEINIT([]): any;
@@ -13,6 +14,7 @@ declare function HOMEINIT([]): any;
 })
 export class HomeComponent implements OnInit {
   products: Product[] = [];
+  categories: Category[] = [];
   loading = false;
   error?: string;
 
@@ -24,6 +26,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
+    this.productService.listCategories().subscribe({
+      next: (cats) => {
+        this.categories = cats ?? [];
+      },
+      error: (err) => {
+        console.error('Error cargando categorías', err);
+      }
+    });
     this.productService
       .list({ page: 1, limit: 12 })
       .subscribe({
@@ -43,38 +53,21 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  trackById(_index: number, item: Product) {
-    return item._id ?? _index;
+  trackById(_index: number, item: { _id?: string }) {
+    return item?._id ?? _index;
   }
 
   handleAddToCart(p: Product): void {
     if (!p) return;
 
-    try {
-      const STORAGE_KEY = 'cart';
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const items: CartItem[] = raw ? JSON.parse(raw) : [];
+    const item: CartItem = {
+      _id: (p as any)?._id ?? (p as any)?.id,
+      title: (p as any)?.title ?? (p as any)?.name ?? 'Producto',
+      price: Number((p as any)?.price) || 0,
+      quantity: 1,
+      image: (p as any)?.images?.[0]
+    };
 
-      const item: CartItem = {
-        _id: (p as any)?._id ?? (p as any)?.id,
-        name: (p as any)?.name ?? (p as any)?.title ?? 'Producto',
-        price: Number((p as any)?.price) || 0,
-        qty: 1,
-      };
-
-      const idx = items.findIndex(it => String(it._id) === String(item._id));
-      if (idx >= 0) {
-        const current = Number(items[idx].qty) || 1;
-        items[idx].qty = current + 1;
-      } else {
-        items.push(item);
-      }
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-      this.cartService.syncFromStorage();
-    } catch (e) {
-      console.error('[home.handleAddToCart] error:', e);
-      alert('No se pudo agregar al carrito');
-    }
+    this.cartService.addItem(item);
   }
 }

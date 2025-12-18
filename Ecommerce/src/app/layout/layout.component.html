@@ -1,0 +1,19 @@
+<app-header></app-header>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar categorías -->
+    <aside class="col-lg-3 d-none d-lg-block">
+      <app-category-sidebar></app-category-sidebar>
+    </aside>
+
+    <!-- Contenido principal -->
+    <div class="col-lg-9 col-12 app-layout-content ps-lg-4">
+      <main class="main-wrapper">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </div>
+</div>
+
+/* TEST-DEPLOY-GIT */

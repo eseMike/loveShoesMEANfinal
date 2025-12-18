@@ -1,105 +1,108 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface CartItem {
-  _id?: string;
-  name?: string;
-  price?: number;
-  qty?: number;
-  image?: string; // URL/relative path de imagen del producto
-  // agrega aquí los campos que uses en tu app
+  _id: string;
+  title: string;
+  price: number;
+  quantity: number;
+  image?: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class CartService {
-  private readonly STORAGE_KEY = 'cart';
 
-  private _count$ = new BehaviorSubject<number>(0);
-  public readonly count$ = this._count$.asObservable();
+  private _items = new BehaviorSubject<CartItem[]>([]);
+  items$ = this._items.asObservable();
 
-  private _items$ = new BehaviorSubject<CartItem[]>([]);
-  public readonly items$ = this._items$.asObservable();
+  // ===== streams derivados =====
+  count$ = this.items$.pipe(
+    map(items => items.reduce((sum, item) => sum + item.quantity, 0))
+  );
 
-  constructor() {
-    this.syncFromStorage();
-    window.addEventListener('storage', (e) => {
-      if (e.key === this.STORAGE_KEY) this.syncFromStorage();
-    });
+  subtotals$ = this.items$.pipe(
+    map(items => items.reduce((sum, item) => sum + item.price * item.quantity, 0))
+  );
+
+  constructor() {}
+
+  // ===== getters usados por header / componentes =====
+  get items(): CartItem[] {
+    return this._items.value;
   }
 
-  public syncFromStorage(): void {
-    try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
-      const items: CartItem[] = raw ? JSON.parse(raw) : [];
-      this._items$.next(items);
+  get count(): number {
+    return this.items.reduce((sum, item) => sum + item.quantity, 0);
+  }
 
-      const count = Array.isArray(items)
-        ? items.reduce((acc, it) => acc + (Number(it?.qty) > 0 ? Number(it.qty) : 1), 0)
-        : 0;
+  get subtotals(): number {
+    return this.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }
 
-      this._count$.next(count);
-    } catch {
-      this._items$.next([]);
-      this._count$.next(0);
+  // ===== acciones =====
+  addProduct(product: any): void {
+    const items = [...this.items];
+    const existing = items.find(i => i._id === product._id);
+
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      items.push({
+        _id: product._id,
+        title: product.title || product.name,
+        price: product.price,
+        quantity: 1,
+        image: product.image
+      });
+    }
+
+    this._items.next(items);
+  }
+
+  addItem(item: CartItem): void {
+    const items = [...this.items];
+    const existing = items.find(i => i._id === item._id);
+
+    if (existing) {
+      existing.quantity += item.quantity;
+    } else {
+      items.push({ ...item });
+    }
+
+    this._items.next(items);
+  }
+
+  increment(id: string): void {
+    const items = [...this.items];
+    const item = items.find(i => i._id === id);
+    if (item) {
+      item.quantity += 1;
+      this._items.next(items);
     }
   }
 
-  public getCountSnapshot(): number {
-    return this._count$.value;
-  }
-
-  public saveItemsToStorage(items: CartItem[]): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
-    this.syncFromStorage();
-  }
-
-  /** Devuelve una copia del arreglo actual de items (sincrónico) */
-  public getItemsSnapshot(): CartItem[] {
-    const raw = localStorage.getItem(this.STORAGE_KEY);
-    try {
-      const items: CartItem[] = raw ? JSON.parse(raw) : [];
-      return Array.isArray(items) ? [...items] : [];
-    } catch {
-      return [];
-    }
-  }
-
-  /** +1 a la cantidad; si no existe, no hace nada (add se maneja fuera) */
-  public increment(id: string | number): void {
-    const items = this.getItemsSnapshot();
-    const idx = items.findIndex(it => String(it._id) === String(id));
-    if (idx >= 0) {
-      const current = Number(items[idx].qty) || 1;
-      items[idx].qty = current + 1;
-      this.saveItemsToStorage(items);
-    }
-  }
-
-  /** -1 a la cantidad; si queda en 0, elimina el ítem */
-  public decrement(id: string | number): void {
-    const items = this.getItemsSnapshot();
-    const idx = items.findIndex(it => String(it._id) === String(id));
-    if (idx >= 0) {
-      const current = Number(items[idx].qty) || 1;
-      const next = current - 1;
-      if (next <= 0) {
-        items.splice(idx, 1);
+  decrement(id: string): void {
+    const items = [...this.items];
+    const item = items.find(i => i._id === id);
+    if (item) {
+      item.quantity -= 1;
+      if (item.quantity <= 0) {
+        this.remove(id);
       } else {
-        items[idx].qty = next;
+        this._items.next(items);
       }
-      this.saveItemsToStorage(items);
     }
   }
 
-  /** Elimina el ítem directamente */
-  public remove(id: string | number): void {
-    const items = this.getItemsSnapshot().filter(it => String(it._id) !== String(id));
-    this.saveItemsToStorage(items);
+  remove(id: string): void {
+    const items = this.items.filter(i => i._id !== id);
+    this._items.next(items);
   }
 
-  /** Vacía por completo el carrito */
-  public clear(): void {
-    localStorage.removeItem(this.STORAGE_KEY);
-    this.syncFromStorage();
+  clear(): void {
+    this._items.next([]);
   }
 }

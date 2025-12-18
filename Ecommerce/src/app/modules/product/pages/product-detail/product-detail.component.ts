@@ -124,36 +124,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     return Number.isFinite(n) ? n > 0 : false;
   }
 
-  /** Placeholder de acción para el CTA "Agregar al carrito" */
+  /** Agrega el producto actual al carrito usando CartService */
   addToCart(): void {
     if (!this.product) { return; }
 
-    try {
-      const STORAGE_KEY = 'cart';
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const items: CartItem[] = raw ? JSON.parse(raw) : [];
+    const item: CartItem = {
+      _id: (this.product as any)?._id ?? (this.product as any)?.id,
+      title: (this.product as any)?.title ?? (this.product as any)?.name ?? 'Producto',
+      price: Number((this.product as any)?.price) || 0,
+      quantity: 1,
+      image: this.images[0]
+    };
 
-      const item: CartItem = {
-        _id: (this.product as any)?._id ?? (this.product as any)?.id,
-        name: (this.product as any)?.name ?? (this.product as any)?.title ?? 'Producto',
-        price: Number((this.product as any)?.price) || 0,
-        qty: 1,
-      };
-
-      const idx = items.findIndex(it => String(it._id) === String(item._id));
-      if (idx >= 0) {
-        const current = Number(items[idx].qty) || 1;
-        items[idx].qty = current + 1;
-      } else {
-        items.push(item);
-      }
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-      this.cartService.syncFromStorage();
-    } catch (e) {
-      console.error('[addToCart] error:', e);
-      alert('No se pudo agregar al carrito');
-    }
+    this.cartService.addItem(item);
   }
 
   trackByIndex(index: number, _item: unknown): number {

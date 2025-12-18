@@ -2,7 +2,6 @@
   ><i class="fal fa-arrow-up"></i
 ></a>
 
-<app-header></app-header>
 
 <main class="main-wrapper">
   <!-- Start Slider Area -->
@@ -21,7 +20,7 @@
                     <h1 class="title">Up to 60% off Sale</h1>
                     <div class="shop-btn">
                       <a href="shop.html" class="axil-btn"
-                        >Shop Now <i class="fal fa-long-arrow-right"></i
+                        >{{ 'HOME.SHOP_NOW' | translate }} <i class="fal fa-long-arrow-right"></i
                       ></a>
                     </div>
                   </div>
@@ -40,7 +39,7 @@
                     <h1 class="title">Up to 60% off Voucher</h1>
                     <div class="shop-btn">
                       <a href="shop.html" class="axil-btn"
-                        >Shop Now <i class="fal fa-long-arrow-right"></i
+                        >{{ 'HOME.SHOP_NOW' | translate }} <i class="fal fa-long-arrow-right"></i
                       ></a>
                     </div>
                   </div>
@@ -59,7 +58,7 @@
                     <h1 class="title">Up to 60% off Voucher</h1>
                     <div class="shop-btn">
                       <a href="shop.html" class="axil-btn"
-                        >Shop Now <i class="fal fa-long-arrow-right"></i
+                        >{{ 'HOME.SHOP_NOW' | translate }} <i class="fal fa-long-arrow-right"></i
                       ></a>
                     </div>
                   </div>
@@ -104,9 +103,9 @@
         <div class="d-md-flex align-items-end flash-sale-section">
           <div class="section-title-wrapper">
             <span class="title-highlighter highlighter-primary"
-              ><i class="fas fa-fire"></i> Today's</span
+              ><i class="fas fa-fire"></i> {{ 'HOME.FLASH_TODAY' | translate }}</span
             >
-            <h2 class="title">Flash Sales</h2>
+            <h2 class="title">{{ 'HOME.FLASH_TITLE' | translate }}</h2>
           </div>
           <div class="sale-countdown countdown"></div>
         </div>
@@ -500,214 +499,32 @@
     <div class="container">
       <div class="section-title-wrapper">
         <span class="title-highlighter highlighter-secondary">
-          <i class="far fa-tags"></i> Categories</span
+          <i class="far fa-tags"></i> {{ 'HOME.CATEGORIES' | translate }}</span
         >
-        <h2 class="title">Browse by Category</h2>
+        <h2 class="title">{{ 'HOME.BROWSE_CATEGORY' | translate }}</h2>
       </div>
       <div
         class="categrie-product-activation slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide"
       >
-        <div class="slick-single-layout">
+        <div
+          class="slick-single-layout"
+          *ngFor="let c of categories; trackBy: trackById"
+        >
           <div
             class="categrie-product"
             data-sal="zoom-out"
             data-sal-delay="200"
             data-sal-duration="500"
           >
-            <a href="#">
+            <a [routerLink]="['/category', c?._id]">
               <img
                 class="img-fluid"
-                src="assets/images/product/love/panorama/first.jpg"
+                src="assets/images/product/placeholder.png"
                 alt="product categorie"
               />
-              <h6 class="cat-title">Mules</h6>
+              <h6 class="cat-title">{{ c.name }}</h6>
             </a>
           </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div
-            class="categrie-product"
-            data-sal="zoom-out"
-            data-sal-delay="300"
-            data-sal-duration="500"
-          >
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/second.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Sandalias</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div
-            class="categrie-product"
-            data-sal="zoom-out"
-            data-sal-delay="400"
-            data-sal-duration="500"
-          >
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/third.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Flats/Balerinas</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div
-            class="categrie-product"
-            data-sal="zoom-out"
-            data-sal-delay="500"
-            data-sal-duration="500"
-          >
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/fourth.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Tenis</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div
-            class="categrie-product"
-            data-sal="zoom-out"
-            data-sal-delay="600"
-            data-sal-duration="500"
-          >
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/fifth.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Botas/Botines</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div
-            class="categrie-product"
-            data-sal="zoom-out"
-            data-sal-delay="700"
-            data-sal-duration="500"
-          >
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/sixth.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Tacones</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div
-            class="categrie-product"
-            data-sal="zoom-out"
-            data-sal-delay="800"
-            data-sal-duration="500"
-          >
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/seven.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Plataformas</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div class="categrie-product">
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/eigth.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Confort</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div class="categrie-product">
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/nine.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">New arrivals</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div class="categrie-product">
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="assets/images/product/love/panorama/ten.jpg"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Camera & Photo</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div class="categrie-product">
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="./assets/images/product/categories/elec-8.png"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Video Games</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
-        </div>
-        <!-- End .slick-single-layout -->
-        <div class="slick-single-layout">
-          <div class="categrie-product">
-            <a href="#">
-              <img
-                class="img-fluid"
-                src="./assets/images/product/categories/elec-1.png"
-                alt="product categorie"
-              />
-              <h6 class="cat-title">Sports</h6>
-            </a>
-          </div>
-          <!-- End .categrie-product -->
         </div>
       </div>
     </div>
@@ -722,9 +539,9 @@
       <div class="product-area pb--50">
         <div class="section-title-wrapper">
           <span class="title-highlighter highlighter-primary">
-            <i class="far fa-shopping-basket"></i>This Month</span
+            <i class="far fa-shopping-basket"></i>{{ 'HOME.THIS_MONTH' | translate }}</span
           >
-          <h2 class="title">Best Selling Products</h2>
+          <h2 class="title">{{ 'HOME.BEST_SELLERS' | translate }}</h2>
         </div>
         <div
           class="new-arrivals-product-activation-2 slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide product-slide-mobile"
@@ -1235,12 +1052,12 @@
             <div class="poster-countdown-content">
               <div class="section-title-wrapper">
                 <span class="title-highlighter highlighter-secondary">
-                  <i class="fal fa-headphones-alt"></i> Don’t Miss!!</span
+                  <i class="fal fa-headphones-alt"></i> {{ 'HOME.DONT_MISS' | translate }}</span
                 >
-                <h2 class="title">Enhance Your Music Experience</h2>
+                <h2 class="title">{{ 'HOME.MUSIC_EXPERIENCE' | translate }}</h2>
               </div>
               <div class="poster-countdown countdown mb--40"></div>
-              <a href="#" class="axil-btn btn-bg-primary">Check it Out!</a>
+              <a href="#" class="axil-btn btn-bg-primary">{{ 'HOME.CHECK_IT_OUT' | translate }}</a>
             </div>
           </div>
           <div class="col-xl-7 col-lg-6">
@@ -1269,9 +1086,9 @@
     <div class="container">
       <div class="section-title-wrapper">
         <span class="title-highlighter highlighter-primary">
-          <i class="fal fa-store"></i> Our Products</span
+          <i class="fal fa-store"></i> {{ 'HOME.OUR_PRODUCTS' | translate }}</span
         >
-        <h2 class="title">Explore our Products</h2>
+        <h2 class="title">{{ 'HOME.EXPLORE_PRODUCTS' | translate }}</h2>
       </div>
       <!-- === Dynamic Products from API (Angular) === -->
       <div class="product-area pb--20">

@@ -1,0 +1,67 @@
+/* Layout wrapper */
+.layout-wrapper {
+  width: 100%;
+  display: block;
+}
+
+/* Main layout row */
+.layout-main {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+  flex-wrap: nowrap;
+}
+
+/* Prevent bootstrap row negative margins from overlapping sidebar */
+.layout-main .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Sidebar (Categories) */
+.layout-sidebar {
+  width: 280px;
+  min-width: 280px;
+  flex: 0 0 280px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  z-index: 3;
+}
+
+/* Main content area */
+.layout-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  padding-left: 24px;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+/* Responsive: hide sidebar on mobile */
+@media (max-width: 991px) {
+  .layout-main {
+    flex-direction: column;
+  }
+
+  .layout-sidebar {
+    position: relative;
+    width: 100%;
+    min-width: 100%;
+    top: auto;
+  }
+
+  .layout-content {
+    padding-left: 0;
+    overflow: visible;
+    max-width: 100%;
+  }
+}
+
+.layout-main > .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
